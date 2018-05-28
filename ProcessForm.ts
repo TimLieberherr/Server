@@ -34,7 +34,7 @@ namespace Aufgabe6_Interfaces {
         studiHomoAssoc[matrikel] = studi;
         studiSimpleArray.push(studi);
     }
-    function refresh(_event: Event): void {
+    /* function refresh(_event: Event): void {
         let output: HTMLTextAreaElement = document.getElementsByTagName("textarea")[0];
         output.value = "";
 
@@ -66,63 +66,64 @@ namespace Aufgabe6_Interfaces {
             output.value += line + "\n";
         }
 
+}
+
+        let convert: string = JSON.stringify(studi);
+        // JavaScript-JSON-Objekt wird in einen string umgewandelt
+        console.log(convert);
+
+        let xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open("GET", address + "?command=insert&data=" + convert, true);
+        // "GET": Methode, mit der Daten versendet werden
+        // address: Internetaddresse vom Datentyp string (zuvor in einer Varaible gespeichert)
+        // ?command=insert&data=: wird an die Internetaddresse angehängt
+        // convert: an die Internetaddresse werden die Daten aus dem Interface als string angehängt
+        // true: Asynchronous, zu einem späteren Zeitpunkt kann festgestellt werden, welche Antwort zu welcher Anfrage gehört
+        xhr.addEventListener("readystatechange", handleStateChangeInsert);
+        xhr.send();
+    
+*/
+    function handleStateChangeInsert(_event: ProgressEvent): void {
+        var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            alert(xhr.response);
+        }
     }
 
-    let convert: string = JSON.stringify(studi);
-    // JavaScript-JSON-Objekt wird in einen string umgewandelt
-    console.log(convert);
-
-    let xhr: XMLHttpRequest = new XMLHttpRequest();
-    xhr.open("GET", address + "?command=insert&data=" + convert, true);
-    // "GET": Methode, mit der Daten versendet werden
-    // address: Internetaddresse vom Datentyp string (zuvor in einer Varaible gespeichert)
-    // ?command=insert&data=: wird an die Internetaddresse angehängt
-    // convert: an die Internetaddresse werden die Daten aus dem Interface als string angehängt
-    // true: Asynchronous, zu einem späteren Zeitpunkt kann festgestellt werden, welche Antwort zu welcher Anfrage gehört
-    xhr.addEventListener("readystatechange", handleStateChangeInsert);
-    xhr.send();
-}
-
-function handleStateChangeInsert(_event: ProgressEvent): void {
-    var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-        alert(xhr.response);
+    //Funktion für Refresh Feld
+    function refresh(_event: Event): void {
+        let xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open("GET", address + "?command=refresh", true);
+        xhr.addEventListener("readystatechange", handleStateChangeRefresh);
+        xhr.send();
     }
-}
 
-//Funktion für Refresh Feld
-function refresh(_event: Event): void {
-    let xhr: XMLHttpRequest = new XMLHttpRequest();
-    xhr.open("GET", address + "?command=refresh", true);
-    xhr.addEventListener("readystatechange", handleStateChangeRefresh);
-    xhr.send();
-}
-
-function handleStateChangeRefresh(_event: ProgressEvent): void {
-    let output: HTMLTextAreaElement = document.getElementsByTagName("textarea")[0];
-    output.value = "";
-    var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-        output.value += xhr.response;
+    function handleStateChangeRefresh(_event: ProgressEvent): void {
+        let output: HTMLTextAreaElement = document.getElementsByTagName("textarea")[0];
+        output.value = "";
+        var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            output.value += xhr.response;
+        }
     }
-}
 
-//Funktion für die Suche per Matrikelnummer   
-function search(_event: Event): void {
-    let mtrkl: string = inputs[6].value;
+    //Funktion für die Suche per Matrikelnummer   
+    function search(_event: Event): void {
+        let inputs: NodeListOf<HTMLInputElement> = document.getElementsByTagName("input");
+        let mtrkl: string = inputs[6].value;
 
-    let xhr: XMLHttpRequest = new XMLHttpRequest();
-    xhr.open("GET", address + "?command=search&searchFor=" + mtrkl, true);
-    xhr.addEventListener("readystatechange", handleStateChangeSearch);
-    xhr.send();
-}
-
-function handleStateChangeSearch(_event: ProgressEvent): void {
-    let output: HTMLTextAreaElement = document.getElementsByTagName("textarea")[1];
-    output.value = "";
-    var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
-    if (xhr.readyState == XMLHttpRequest.DONE) {
-        output.value += xhr.response;
+        let xhr: XMLHttpRequest = new XMLHttpRequest();
+        xhr.open("GET", address + "?command=search&searchFor=" + mtrkl, true);
+        xhr.addEventListener("readystatechange", handleStateChangeSearch);
+        xhr.send();
     }
-}
+
+    function handleStateChangeSearch(_event: ProgressEvent): void {
+        let output: HTMLTextAreaElement = document.getElementsByTagName("textarea")[1];
+        output.value = "";
+        var xhr: XMLHttpRequest = (<XMLHttpRequest>_event.target);
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            output.value += xhr.response;
+        }
+    }
 }
