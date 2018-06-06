@@ -29,12 +29,15 @@ namespace Server {
     if (port == undefined)
         port = 8100;
 
-    let server: Http.Server = Http.createServer((_request: Http.IncomingMessage, _response: Http.ServerResponse) => {
-        _response.setHeader("content-type", "text/html; charset=utf-8");
-        _response.setHeader("Access-Control-Allow-Origin", "*");
-    });
+    let server: Http.Server = Http.createServer();
+    server.addListener("listening", handleListen);
     server.addListener("request", handleRequest);
     server.listen(port);
+    
+    function handleListen (_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
+        _response.setHeader("content-type", "text/html; charset=utf-8");
+        _response.setHeader("Access-Control-Allow-Origin", "*");
+    }
 
     //Switch Abfrage mit den verschiednene Fällen und den entsprechenden Funktionen, die ausgeführt werden sollen      
     function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
@@ -102,7 +105,8 @@ namespace Server {
             line += studi.studyPath + ", " + studi.name + ", " + studi.firstname + ", " + studi.age + " Jahre ";
             line += studi.gender ? "(M)" : "(F)";
             _response.write(line);
-        } else {
+        } 
+        else {
             _response.write("No match found");
         }
     }
