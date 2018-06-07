@@ -29,7 +29,7 @@ namespace Server {
     if (port == undefined)
         port = 8100;
 
-    let server: Http.Server = Http.createServer();
+    /*let server: Http.Server = Http.createServer();
     server.addListener("listening", handleListen);
     server.addListener("request", handleRequest);
     server.listen(port);
@@ -113,6 +113,6 @@ namespace Server {
 
     function error(): void {
         alert("Error");
-    }
+    }*/
 
 }
