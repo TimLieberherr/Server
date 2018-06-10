@@ -15,7 +15,7 @@ let students;
 // wenn wir auf heroku sind...
 if (process.env.NODE_ENV == "production") {
     //    databaseURL = "mongodb://username:password@hostname:port/database";
-    databaseURL = "mongodb://Testuser:testuser1@ds245680.mlab.com:45680/database-mongodb";
+    databaseURL = "mongodb://Testuser:Testuser1@ds245680.mlab.com:45680/database-mongodb";
     databaseName = "database-mongodb";
 }
 // handleConnect wird aufgerufen wenn der Versuch, die Connection zur Datenbank herzustellen, erfolgte
