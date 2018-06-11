@@ -72,7 +72,7 @@ function search(query, _response) {
     });
 }
 function error() {
-    alert("Error");
+    //alert("Error");
 }
 function handleResponse(_response, _text) {
     _response.write(_text);

@@ -85,7 +85,7 @@ function search(query: AssocStringString, _response: Http.ServerResponse): void 
 }
 
 function error(): void {
-    alert("Error");
+    //alert("Error");
 }
 
 function handleResponse(_response: Http.ServerResponse, _text: string): void {
