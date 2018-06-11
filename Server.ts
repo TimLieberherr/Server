@@ -20,6 +20,9 @@ server.listen(port);
 
 //Switch Abfrage mit den verschiednene Fällen und den entsprechenden Funktionen, die ausgeführt werden sollen      
 function handleRequest(_request: Http.IncomingMessage, _response: Http.ServerResponse): void {
+    _response.setHeader("content-type", "text/html; charset=utf-8");
+    _response.setHeader("Access-Control-Allow-Origin", "*");
+
     let query: AssocStringString = Url.parse(_request.url, true).query;
     console.log(query["command"]);
     if (query["command"]) {
@@ -73,11 +76,11 @@ function refresh(_response: Http.ServerResponse): void {
     });
 }
 
- function search(query: AssocStringString, _response: Http.ServerResponse): void {
-            let searchedMatrikel: number = parseInt(query["searchFor"]);
-            Database.findStudent(searchedMatrikel, function (json: string): void {
-            handleResponse(_response, json);    
-            });
+function search(query: AssocStringString, _response: Http.ServerResponse): void {
+    let searchedMatrikel: number = parseInt(query["searchFor"]);
+    Database.findStudent(searchedMatrikel, function(json: string): void {
+        handleResponse(_response, json);
+    });
 }
 
 function error(): void {
@@ -85,8 +88,7 @@ function error(): void {
 }
 
 function handleResponse(_response: Http.ServerResponse, _text: string): void {
-    _response.setHeader("content-type", "text/html; charset=utf-8");
-    _response.setHeader("Access-Control-Allow-Origin", "*");
+
     _response.write(_text);
     _response.end();
 }
